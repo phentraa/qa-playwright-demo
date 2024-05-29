@@ -1,0 +1,10 @@
+services:
+  app:
+    build: .
+    container_name: playwright-demo
+    tty: true
+    environment:
+      - TEST_USER_EMAIL=gsmca645h@mozmail.com
+      - TEST_USER_PASSWORD=MySecretPassword
+    volumes:
+      - ./src:/code
