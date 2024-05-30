@@ -19,11 +19,6 @@ test.describe.only('Registration', () => {
         await homePage.button.createAccount.click()
     })
 
-    test.afterAll(async({}) => {
-        //Removing registrated test user from the system
-        console.log('REMOVE')
-    })
-
     // Reading test data from CSV file for parametrized negative path test
     const records = parse(fs.readFileSync(path.join(__dirname, '../../test-data/registration_negative.csv')), {
         columns: true,
@@ -44,39 +39,27 @@ test.describe.only('Registration', () => {
     }
 
     // Positive path after negative path test cases
-    test('User can registrate with valid information', async () => {
+    test('User registration and first login process', async ({ page }) => {
+
+        // Step 1 - Registration
         await registerPage.fillForm(TestUser.email, TestUser.name, TestUser.password, TestUser.password)
         await registerPage.submitRegistration()
 
         await expect(registerPage.successMessage).toBeVisible()
-    })
 
-    test('User can login to & logout from the new account', async ({ page, request, apiBaseUrl }) => {
+        // Step 2 - Login
         await registerPage.link.login.click()
         let loginPage = new LoginPage(page)
-
         await loginPage.login(TestUser.email, TestUser.password)
-
+        
         const logoutButton = page.getByTestId('logout')
         await expect(logoutButton).toBeVisible()
-        
-        //const authToken = await loginPage.getAuthorizationToken()
 
-        logoutButton.click()
+        // Step 3 - Logout
+
+        await logoutButton.click()
         await expect(homePage.welcomeText).toBeVisible()
 
-        // Removing test user from the system
-        // console.log(`Removing ${TestUser.email} from the system`)
-        // console.log(`Token: ${authToken}`)
-
-        // const response = await request.delete(apiBaseUrl+'/users/delete-account', {
-        //     headers: {
-        //         'x-auth-token': authToken
-        //     }
-        // })
-        // console.log(response.status()+' '+response.statusText())
-        // console.log(await response.text())
-        // expect(response.ok()).toBeTruthy()
     })
 
 })
