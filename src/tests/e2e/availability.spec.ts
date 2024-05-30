@@ -14,29 +14,29 @@ test.describe('Availability', () => {
 
     // PARAMETRIZED TEST
     let expectedMenuItems = [
-        {text: 'Practice', expected_href:'/'},
-        {text: 'Demos', expected_href:'/#examples'},
-        {text: 'Tools', expected_href:'/#tools'},
-        {text: 'About', expected_href:'/about'},
-        {text: 'Contact', expected_href:'/contact'},
-        {text: 'Automation Training', expected_href:'https://expandtesting.com/formations/'}
+        {text: Menu.Item.Practice, expected_href:'/'},
+        {text: Menu.Item.Demos, expected_href:'/#examples'},
+        {text: Menu.Item.Tools, expected_href:'/#tools'},
+        {text: Menu.Item.About, expected_href:'/about'},
+        {text: Menu.Item.Contact, expected_href:'/contact'},
+        {text: Menu.Item.AutomationTraining, expected_href:'https://expandtesting.com/formations/'}
     ]
     for (const menu_item of expectedMenuItems) {
-        test(`Checking link on navigation bar: ${menu_item.text}`, async ({ page }) => {
+        test(`Checking link on navigation bar: ${menu_item.text}`, async () => {
             await allure.description('This test pass if all menu elements are present on the page and each of them contains the correct url endpoint.')
             await allure.id('AVAILABILITY-TC-1')
             await allure.owner('Kovács Péter')
             await allure.link('https://www.mytestmanagementtool.com/testcases/1', 'Link for TC1')
-            await allure.parameter("navbar element", menu_item.text);
-
-            const element = homePage.menubar.getMenuItemByName(menu_item.text)
+            await allure.parameter("navbar element", menu_item.text)
+            
+            const element = homePage.menubar.getMenuItemByText(menu_item.text)
 
             await expect(element).toBeVisible()
             expect(await element.getAttribute('href')).toBe(menu_item.expected_href)
         });
     }
 
-    test('All interactive elements are present on the page', async ({ page }) => {
+    test('All interactive elements are present on the page', async () => {
         // Detailed information about the test for reporting
         await allure.description('This test ensures that all interactive elements are present on the page')
         await allure.id('AVAILABILITY-TC-2')

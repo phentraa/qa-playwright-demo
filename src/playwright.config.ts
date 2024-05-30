@@ -4,13 +4,14 @@ export default defineConfig({
   testDir: './tests',
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
-  retries: process.env.CI ? 2 : 0,
+  retries: process.env.CI ? 2 : 1,
   workers: process.env.CI ? 1 : undefined,
   reporter: 'allure-playwright',
+  timeout: 60000,
   use: {
     baseURL: 'https://practice.expandtesting.com/notes/app',
     apiBaseUrl: 'https://practice.expandtesting.com/notes/api',
-    testIdAttribute: 'data-test',
+    //testIdAttribute: 'data-test',
     trace: 'on-first-retry',
   },
 

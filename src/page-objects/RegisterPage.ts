@@ -1,9 +1,8 @@
 import { Locator, Page } from '@playwright/test'
 import { AbstractPage } from './AbstractPage'
-import { Menu } from './components/common'
 
 export class HomePage extends AbstractPage {
-
+    
     // Selector definitions
     readonly welcomeText: Locator
     readonly button: {
@@ -20,6 +19,8 @@ export class HomePage extends AbstractPage {
     // Initialization
     constructor(page: Page) {
         super(page)
+
+        this.menubar = new Menu(page)
 
         this.welcomeText = this.page.getByRole('heading', {name: 'Welcome to Notes App'})
         this.button = {

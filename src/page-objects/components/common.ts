@@ -2,6 +2,17 @@ import { Locator, Page } from '@playwright/test'
 
 export class Menu {
 
+    static Item = {
+        Practice: 'Practice',
+        Demos: 'Demos',
+        Tools: 'Tools',
+        About: 'About',
+        Contact: 'Contact',
+        Training: 'Training',
+        AutomationTraining: 'Automation Training'
+    }
+    
+
     // Selector definitions
     readonly items: {
         practice:  Locator, 
@@ -18,7 +29,7 @@ export class Menu {
         const navbar = page.getByRole('navigation')
         this.items = {
             // practice : navbar.getByRole('link', { name: 'Practice'}),
-            practice : navbar.getByText('Practice'),
+            practice : navbar.getByLabel('SUT'),
             demos: navbar.getByRole('button', { name: 'Demos' }), 
             tools: navbar.getByRole('link', { name: 'Tools'}),
             about: navbar.getByRole('link', { name: 'About'}),
@@ -29,19 +40,19 @@ export class Menu {
 
     // Functionality
 
-    getMenuItemByName(name: string): Locator {
-        switch( name ) {
-            case 'Practice':
+    getMenuItemByText(item: string): Locator {
+        switch( item ) {
+            case Menu.Item.Practice:
                 return this.items.practice;
-            case 'Demos':
+            case Menu.Item.Demos:
                 return this.items.demos;
-            case 'Tools':
+            case Menu.Item.Tools:
                 return this.items.tools;
-            case 'About':
+            case Menu.Item.About:
                 return this.items.about;
-            case 'Contact':
+            case Menu.Item.Contact:
                 return this.items.contact;
-            case 'Automation Training':
+            case Menu.Item.AutomationTraining:
                 return this.items.training;
             default:
                 return this.items.practice;
