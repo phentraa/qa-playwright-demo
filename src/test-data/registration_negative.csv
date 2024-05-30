@@ -1,0 +1,5 @@
+"test_case","email","user","password","passwordConfirm","expected_errors"
+"All fields are empty","","","","","Email address is required;User name is required;Password is required;Confirm Password is required"
+"Invalid email, short user, short password","testuser","usr","12345","","Email address is invalid;User name should be between 4 and 30 characters;Password should be between 6 and 30 characters;Confirm Password is required"
+"Invalid email, long user, long password","testuser@","testusermorethan30characterlong","passwordmorethan30characterlong","","Email address is invalid;User name should be between 4 and 30 characters;Password should be between 6 and 30 characters;Confirm Password is required"
+"Invalid email, passwords do not match","testuser@test","testuser","password1","password2","Email address is invalid;Passwords don't match!"

@@ -19,8 +19,7 @@ test.describe('Authenticated user checks', () => {
     let apiContext: APIRequestContext
     
     test.beforeAll( async({ playwright, request, apiBaseUrl }) => {
-        const response = await request.post(apiBaseUrl+'/users/login', 
-        { 
+        const response = await request.post(apiBaseUrl+'/users/login', { 
             data: {
                 email: process.env.TEST_USER_EMAIL,
                 password: process.env.TEST_USER_PASSWORD

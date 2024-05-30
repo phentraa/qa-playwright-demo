@@ -1,0 +1,7 @@
+"test_case","email","password","expected_errors"
+"All fields are empty","","","Email address is required;Password is required"
+"Invalid email, short password","testuser","12345","Email address is invalid;Password should be between 6 and 30 characters"
+"Invalid email, long password","testuser@","passwordmorethan30characterlong","Email address is invalid;Password should be between 6 and 30 characters"
+"Invalid email, passwords do not match","testuser@test","password1","Email address is invalid"
+"Not registrated valid email, good password","$","$","Incorrect email address or password"
+"Registrated valid email, wrong password","$","$","Incorrect email address or password"

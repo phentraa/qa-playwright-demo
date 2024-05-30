@@ -25,4 +25,20 @@ export class AbstractPage {
     async wait(second: number) {
         await this.page.waitForTimeout(second)
     }
+
+    async getAuthorizationToken(): Promise<string>{
+        const cookies = await this.page.context().cookies()
+        const token = cookies.find(cookie => cookie.name === 'token' )
+        if(token){
+            return token.value
+        }
+
+        const tokenFromLocalStorage = await this.page.evaluate(() => localStorage.getItem('token'))
+        if(tokenFromLocalStorage) {
+            return tokenFromLocalStorage
+        }
+
+        return 'Could not find token'
+        
+    }
 }
