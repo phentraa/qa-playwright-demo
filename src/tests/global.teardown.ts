@@ -7,7 +7,6 @@ teardown('Removing test users', async ({ request, apiBaseUrl }) => {
     for (const testUser of testUsers) {
 
         if(testUser.teardown === 'yes'){
-            //console.log(`Removing ${testUser.email} in teardown function`)
 
             let response = await request.post(apiBaseUrl + '/users/login', {
                 data: {
@@ -27,19 +26,7 @@ teardown('Removing test users', async ({ request, apiBaseUrl }) => {
                 })
 
                 expect(response.ok()).toBeTruthy()
-    
-                // if (response.ok()) {
-                //     console.log('User removed')
-                // }
-                // else {
-                //     console.log('Could not delete user')
-                //     console.log(await response.text())
-                // }
             }
-            // else {
-            //     console.log(`Could not log in with ${testUser.email}`)
-            //     console.log(await response.text())
-            // }
         }
         
     }
