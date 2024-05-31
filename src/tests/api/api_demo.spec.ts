@@ -1,8 +1,9 @@
-import process from 'process'
 import { test, expect } from '../../fixtures'
-import { APIRequestContext } from '@playwright/test'
+import { TestUserHandler } from '../../test-data/data'
 
-test.describe('Health-check', () => {
+let testUser = new TestUserHandler().getUserByRole('login')
+
+test.describe('Health-check @API', () => {
 
     test('Application is available', async({request, apiBaseUrl}) => {
         const response = await request.get(apiBaseUrl+'/health-check')
@@ -14,37 +15,31 @@ test.describe('Health-check', () => {
 
 })
 
-test.describe('Authenticated user checks', () => {
+test.describe('Authenticated user checks @API', () => {
 
-    let apiContext: APIRequestContext
+    let authToken: string
     
-    test.beforeAll( async({ playwright, request, apiBaseUrl }) => {
+    test.beforeAll( async({ request, apiBaseUrl }) => {
+
         const response = await request.post(apiBaseUrl+'/users/login', { 
             data: {
-                email: process.env.TEST_USER_EMAIL,
-                password: process.env.TEST_USER_PASSWORD
+                email: testUser.email,
+                password: testUser.password
             }
         })
 
         expect(response.ok()).toBeTruthy()
 
         const response_body = await response.json()
+        authToken = response_body.data.token
+    })
 
-        apiContext = await playwright.request.newContext({
-            baseURL: apiBaseUrl,
-            extraHTTPHeaders: {
-                'x-auth-token': response_body.data.token
+    test('Retrieving all notes (API)', async({ request, apiBaseUrl })=>{
+        const response = await request.get(apiBaseUrl+'/notes', {
+            headers: {
+                'x-auth-token': authToken
             }
         })
-
-    })
-
-    test.afterAll( async({})=> {
-        await apiContext.dispose()
-    })
-
-    test('Retrieve all notes', async({})=>{
-        const response = await apiContext.get('/notes')
 
         expect(response.ok()).toBeTruthy()
     })

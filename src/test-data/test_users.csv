@@ -1,0 +1,3 @@
+"name","email","password","role","setup","teardown"
+"Login User","gsmca645h+login@mozmail.com","MySecretPassword","login","yes","yes"
+"Registration User","gsmca645h+registration@mozmail.com","MySecretPassword","registration","no","yes"

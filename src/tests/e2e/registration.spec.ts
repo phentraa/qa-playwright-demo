@@ -1,12 +1,9 @@
-import fs from 'fs'
-import path from 'path'
-import { parse } from 'csv-parse/sync'
 import { test, expect } from '../../fixtures'
 import { allure } from 'allure-playwright'
-import { TestUser } from '../../test-data/data'
+import { TestUserHandler, readFromCSV } from '../../test-data/data'
 import { HomePage, RegisterPage, LoginPage } from '../../page-objects/pages'
 
-test.describe.only('Registration', () => {
+test.describe('Registration', () => {
 
     let homePage: HomePage
     let registerPage: RegisterPage
@@ -20,10 +17,12 @@ test.describe.only('Registration', () => {
     })
 
     // Reading test data from CSV file for parametrized negative path test
-    const records = parse(fs.readFileSync(path.join(__dirname, '../../test-data/registration_negative.csv')), {
-        columns: true,
-        skip_empty_lines: true
-    })
+    // const records = parse(fs.readFileSync(path.join(__dirname, '../../test-data/registration_negative.csv')), {
+    //     columns: true,
+    //     skip_empty_lines: true
+    // })
+
+    const records = readFromCSV('registration_negative.csv')
 
     for (const record of records) {
         test(`Negative path - ${record.test_case}`, async () => {
@@ -41,8 +40,10 @@ test.describe.only('Registration', () => {
     // Positive path after negative path test cases
     test('User registration and first login process', async ({ page }) => {
 
+        const testUser = new TestUserHandler().getUserByRole('registration')
+
         // Step 1 - Registration
-        await registerPage.fillForm(TestUser.email, TestUser.name, TestUser.password, TestUser.password)
+        await registerPage.fillForm(testUser.email, testUser.name, testUser.password, testUser.password)
         await registerPage.submitRegistration()
 
         await expect(registerPage.successMessage).toBeVisible()
@@ -50,7 +51,7 @@ test.describe.only('Registration', () => {
         // Step 2 - Login
         await registerPage.link.login.click()
         let loginPage = new LoginPage(page)
-        await loginPage.login(TestUser.email, TestUser.password)
+        await loginPage.login(testUser.email, testUser.password)
         
         const logoutButton = page.getByTestId('logout')
         await expect(logoutButton).toBeVisible()

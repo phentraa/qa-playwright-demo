@@ -3,5 +3,5 @@
 "Invalid email, short password","testuser","12345","Email address is invalid;Password should be between 6 and 30 characters"
 "Invalid email, long password","testuser@","passwordmorethan30characterlong","Email address is invalid;Password should be between 6 and 30 characters"
 "Invalid email, passwords do not match","testuser@test","password1","Email address is invalid"
-"Not registrated valid email, good password","$","$","Incorrect email address or password"
-"Registrated valid email, wrong password","$","$","Incorrect email address or password"
+"Not registered valid email, good password","notexists@test123.hu","$","Incorrect email address or password"
+"Registered valid email, wrong password","$","$wrong","Incorrect email address or password"

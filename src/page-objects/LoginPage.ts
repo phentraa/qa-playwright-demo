@@ -55,7 +55,10 @@ export class LoginPage extends AbstractPage {
 
     getErrorByText(error: string): Locator {
         // I am using RegExp for exact matching
-        return this.page.locator('.invalid-feedback').filter({hasText: new RegExp(`^${error}$`)})
+        const invalidFeedback = this.page.locator('.invalid-feedback').filter({hasText: new RegExp(`^${error}$`)})
+        const generalError = this.page.getByText(new RegExp(`^${error}$`))
+        
+        return invalidFeedback.or(generalError)
     }
 
 }
