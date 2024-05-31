@@ -3,5 +3,6 @@ services:
     build: .
     container_name: playwright-demo
     tty: true
+    entrypoint: /code/entrypoint.sh
     volumes:
       - ./src:/code
